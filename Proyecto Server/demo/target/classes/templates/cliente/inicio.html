@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="layout/admi :: cabeza">   </head>
+  <body>
+ <div id="app"  >
+        <div id="sidebar" class='active' >
+            <div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+     
+
+        <a class="navbar-brand brand-logo" th:href="@{/pagina}"><img th:src="@{/images/imgindex/pagina/icono.PNG}" alt="logo"/> Textilería Jossmary</a>
+    </div>
+     <div th:replace="layout/admi :: opciones">
+       
+    </div>
+</div>
+        </div>
+
+
+     <div id="main" >
+     <nav th:replace="layout/admi :: menu"></nav>
+
+        <main>
+                  <div class="container pt-4">
+                    
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${mensaje !=null}">
+                      <span th:text="${mensaje}"></span>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    
+                    <h1 class="text-center">Clientes</h1>
+                    <br>
+
+                     <!--Aqui inicia Formulario de producto-->
+                      <form th:action="@{/cliente/form}" th:object="${cliente}" method="post">
+                        <div class="card">
+                            <div class="card-header">Datos del Cliente:</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Tipo Documento:</label>
+                                        <select th:field="*{documento.id}" class="form-select" required>
+                                            <option value="">Seleccione una opción</option>
+                                            <option th:each="item : ${listaDocumento}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label>N° de documento:</label>
+                                        <input type="text" th:field="*{numdoc}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese el numero de documento" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('numdoc')}">Campo obligatorio</small>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Nombres:</label>
+                                        <input type="text" th:field="*{nombre}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese el nombre" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}">Campo obligatorio</small>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label>Apellido Paterno:</label>
+                                        <input type="text" th:field="*{paterno}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese el apellido paterno" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('paterno')}">Campo obligatorio</small>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Apellido Materno:</label>
+                                        <input type="text" th:field="*{materno}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese el apellido materno" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('materno')}">Campo obligatorio</small>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label>Distrito:</label>
+                                        <select th:field="*{distrito.id}" class="form-select" required>
+                                            <option value="">Seleccione una opción</option>
+                                            <option th:each="item : ${listaDistrito}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Dirección:</label>
+                                        <input type="text" th:field="*{direccion}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese la dirección" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('direccion')}">Campo obligatorio</small>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label>Tipo de Cliente:</label>
+                                        <select th:field="*{tipocliente.id}" class="form-select" required>
+                                            <option value="">Seleccione una opción</option>
+                                            <option th:each="item : ${listaTipocliente}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                              <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label>Celular:</label>
+                                    <input type="text" th:field="*{celular}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                        placeholder="Ingrese numero de celular" required/>
+                                        <small class="form-text text-danger" th:if="${#fields.hasErrors('celular')}">Campo obligatorio</small>
+                                </div>
+                            </div>
+
+
+                                <div class="row" mt-3>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa-solid fa-floppy-disk"></i> Guardar Cliente
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>                            
+                        </div>
+                    </form>
+                    
+                    <br><br>
+                    <div class="card">
+                        <div class="card-header">
+                            Clientes registrados
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombres</th>
+                                        <th>A. Paterno</th>
+                                        <th>A. Materno</th>
+                                        <th>T. Cliente</th>
+                                        <th>Tip. Doc</th>
+                                        <th>N° de Doc</th>
+                                        <th>Distrito</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item: ${listaCliente}">
+                                        <td th:text="${item.nombre}"></td>
+                                        <td th:text="${item.paterno}"></td>
+                                        <td th:text="${item.materno}"></td>
+                                        <td th:text="${item.tipocliente.nombre}"></td>
+                                        <td th:text="${item.documento.nombre}"></td>
+                                        <td th:text="${item.numdoc}"></td>
+                                        <td th:text="${item.distrito.nombre}"></td>
+                                        <td class="text-center">
+                                          <a class="btn btn-warning editarCliente"
+                                                    th:data-id="${item.id}"
+                                                    th:data-documento="${item.documento.id}"
+                                                    th:data-numdoc="${item.numdoc}"
+                                                    th:data-nombre="${item.nombre}"
+                                                    th:data-paterno="${item.paterno}"
+                                                    th:data-materno="${item.materno}"
+                                                    th:data-distrito="${item.distrito.id}"
+                                                    th:data-direccion="${item.direccion}"
+                                                    th:data-tipocliente="${item.tipocliente.id}"
+                                                    th:data-celular="${item.celular}">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Editar
+                                          </a>
+                                        </td>
+                                        
+                                        <td class="text-center">
+                                            <a class="btn btn-danger" th:href="@{/cliente/eliminar/} + ${item.id}"
+                                                onclick="return confirm('¿Desea eliminar el cliente?')">
+                                                <i class="fa-solid fa-trash-can"></i> Eliminar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </main>
+      </div>
+    </div>
+     <!-- Modal -->
+     <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Cliente</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form th:action="@{/cliente/form}" th:object="${cliente}" method="post">
+              <div class="modal-body p-4">
+                  <input type="hidden" th:field="*{id}">
+
+                  <div class="row mb-3">
+                      <div class="col-12 mn-3">
+                          <label>Tipo de Documento:</label>
+                          <select name="documento.id" id="cboDocumento" class="form-select" required>
+                              <option value="">Seleccione una opción</option>
+                              <option th:each="item : ${listaDocumento}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>N° de documento:</label>
+                        <input type="text" name="numdoc" id="txtNumdoc" class="form-control" placeholder="Ingrese el numero de documento" required/>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Nombres:</label>
+                        <input type="text" name="nombre" id="txtNombre" class="form-control" placeholder="Ingrese el nombre" required/>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Apellido Paterno:</label>
+                        <input type="text" name="paterno" id="txtPaterno" class="form-control" placeholder="Ingrese el apellido paterno" required/>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Apellido Materno:</label>
+                        <input type="text" name="materno" id="txtMaterno" class="form-control" placeholder="Ingrese el apellido materno" required/>
+                    </div>
+                </div>
+
+                  <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Distrito:</label>
+                        <select name="distrito.id" id="cboDistrito" class="form-select" required>
+                            <option value="">Seleccione una opción</option>
+                            <option th:each="item : ${listaDistrito}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                        </select>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Dirección:</label>
+                        <input type="text" name="direccion" id="txtDireccion" class="form-control" placeholder="Ingrese la dirección" required/>
+                    </div>
+                </div>
+
+
+                  <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Tip. de Cliente:</label>
+                        <select name="tipocliente.id" id="cboTipocliente" class="form-select" required>
+                            <option value="">Seleccione una opción</option>
+                            <option th:each="item : ${listaTipocliente}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                        </select>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Celular:</label>
+                        <input type="text" name="celular" id="txtCelular" class="form-control" placeholder="Ingrese numero de celular" required/>
+                    </div>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                      <i class="fa-solid fa-ban"></i> Cancelar
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                      <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                  </button>
+              </div>
+          </form>
+      </div>
+      </div>
+  </div>
+  
+    
+  <div th:replace="layout/admi :: librerias" ></div>
+  <script type="text/javascript" th:src="@{/js/cliente.js}"></script>
+  <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

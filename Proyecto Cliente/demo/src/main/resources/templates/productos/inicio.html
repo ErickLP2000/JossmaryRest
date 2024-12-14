@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="layout/admi :: cabeza">   </head>
+  <body>
+ <div id="app"  >
+        <div id="sidebar" class='active' >
+            <div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+     
+
+        <a class="navbar-brand brand-logo" th:href="@{/pagina}"><img th:src="@{/images/imgindex/pagina/icono.PNG}" alt="logo"/> Textilería Jossmary</a>
+    </div>
+     <div th:replace="layout/admi :: opciones">
+       
+    </div>
+</div>
+        </div>
+
+
+     <div id="main" >
+     <nav th:replace="layout/admi :: menu"></nav>
+
+        <main>
+                  <div class="container pt-4">
+                    
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${mensaje !=null}">
+                      <span th:text="${mensaje}"></span>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    
+                    <h1 class="text-center">Productos</h1>
+                    <br>
+
+                     <!--Aqui inicia Formulario de producto-->
+                     <form th:action="@{/productos/form}" th:object="${productos}" method="post">
+                        <div class="card">
+                            <div class="card-header">Datos del producto:</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Categoria de producto:</label>
+                                        <select th:field="*{catproducto.id}" class="form-select" required>
+                                            <option value="">Seleccione una opción</option>
+                                            <option th:each="item : ${listaCatproducto}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label>Nombre de producto:</label>
+                                        <input type="text" th:field="*{nombre}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese el nombre de insumo" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}">Campo obligatorio</small>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Color:</label>
+                                        <input type="text" th:field="*{color}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese el color" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('color')}">Campo obligatorio</small>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label>Talla:</label>
+                                        <input type="text" th:field="*{talla}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese la talla" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('talla')}">Campo obligatorio</small>
+                                    </div>
+                                    
+                                </div>
+
+
+                                <div class="row" mt-3>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa-solid fa-floppy-disk"></i> Guardar Producto
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>                            
+                        </div>
+                    </form>
+                    
+                    <br><br>
+                    <div class="card">
+                        <div class="card-header">
+                            Insumos registrados
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Categoria</th>
+                                        <th>Producto</th>
+                                        <th>Color</th>
+                                        <th>Talla</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item: ${listaProductos}">
+                                        <td th:text="${item.catproducto.nombre}"></td>
+                                        <td th:text="${item.nombre}"></td>
+                                        <td th:text="${item.color}"></td>
+                                        <td th:text="${item.talla}"></td>
+                                        <td class="text-center">
+                                          <a class="btn btn-warning editarInsumo"
+                                                    th:data-id="${item.id}"
+                                                    th:data-categoria="${item.catproducto.id}"
+                                                    th:data-nombre="${item.nombre}"
+                                                    th:data-color="${item.color}"
+                                                    th:data-talla="${item.talla}">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Editar
+                                          </a>
+                                        </td>
+                                        
+                                        <td class="text-center">
+                                            <a class="btn btn-danger" th:href="@{/productos/eliminar/} + ${item.id}"
+                                                onclick="return confirm('¿Desea eliminar el producto?')">
+                                                <i class="fa-solid fa-trash-can"></i> Eliminar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </main>
+      </div>
+    </div>
+     <!-- Modal -->
+     <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Producto</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form th:action="@{/productos/form}" th:object="${productos}" method="post">
+              <div class="modal-body p-4">
+                  <input type="hidden" th:field="*{id}">
+
+                  <div class="row mb-3">
+                      <div class="col-12 mn-3">
+                          <label>Categoria de producto:</label>
+                          <select name="catproducto.id" id="cboCategoria" class="form-select" required>
+                              <option value="">Seleccione una opción</option>
+                              <option th:each="item : ${listaCatproducto}" th:value="${item.id}" th:text="${item.nombre}"></option>
+                          </select>
+                      </div>
+                  </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Nombre del producto:</label>
+                        <input type="text" name="nombre" id="txtNombre" class="form-control" placeholder="Ingrese el nombre" required/>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Color:</label>
+                        <input type="text" name="color" id="txtColor" class="form-control" placeholder="Ingrese el color" required/>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-12 mn-3">
+                        <label>Talla:</label>
+                        <input type="text" name="talla" id="txtTalla" class="form-control" placeholder="Ingrese la talla" required/>
+                    </div>
+                </div>
+
+
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                      <i class="fa-solid fa-ban"></i> Cancelar
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                      <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                  </button>
+              </div>
+          </form>
+      </div>
+      </div>
+  </div>
+  
+    
+  <div th:replace="layout/admi :: librerias" ></div>
+  <script type="text/javascript" th:src="@{/js/productos.js}"></script>
+  <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

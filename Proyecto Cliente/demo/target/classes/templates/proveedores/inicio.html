@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="layout/admi :: cabeza">   </head>
+  <body>
+    <div id="app"  >
+        <div id="sidebar" class='active' >
+            <div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+     
+
+        <a class="navbar-brand brand-logo" th:href="@{/pagina}"><img th:src="@{/images/imgindex/pagina/icono.PNG}" alt="logo"/> Textilería Jossmary</a>
+    </div>
+     <div th:replace="layout/admi :: opciones">
+       
+    </div>
+</div>
+        </div>
+
+
+     <div id="main" >
+     <nav th:replace="layout/admi :: menu"></nav>
+
+     <main>
+        <div class="container pt-4">
+          
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${mensaje !=null}">
+            <span th:text="${mensaje}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          
+          <h1 class="text-center">Proveedores</h1>
+          <br>
+
+           <!--Aqui inicia Formulario de producto-->
+            <form th:action="@{/proveedores/form}" th:object="${proveedores}" method="post">
+              <div class="card">
+                  <div class="card-header">Datos del Proveedor:</div>
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-md-6 mb-3">
+                              <label>RUC:</label>
+                              <input type="text" th:field="*{ruc}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                  placeholder="Ingrese el numero de RUC" required/>
+                                  <small class="form-text text-danger" th:if="${#fields.hasErrors('ruc')}">Campo obligatorio</small>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                              <label>Nombre de Proveedor:</label>
+                              <input type="text" th:field="*{nombre}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                  placeholder="Ingrese el nombre" required/>
+                                  <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}">Campo obligatorio</small>
+                          </div>
+                          
+                      </div>
+
+                      <div class="row">
+                          <div class="col-md-6 mb-3">
+                              <label>Dirección:</label>
+                              <input type="text" th:field="*{direccion}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                  placeholder="Ingrese la dirección" required/>
+                                  <small class="form-text text-danger" th:if="${#fields.hasErrors('direccion')}">Campo obligatorio</small>
+                          </div>
+                          
+                          <div class="col-md-6 mb-3">
+                              <label>Celular:</label>
+                              <input type="text" th:field="*{celular}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                  placeholder="Ingrese numero de celular" required/>
+                                  <small class="form-text text-danger" th:if="${#fields.hasErrors('celular')}">Campo obligatorio</small>
+                          </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Estado:</label>
+                            <select th:field="*{estado}" class="form-select">
+                                <option value="">Seleccione una opción</option>
+                                <option value="1" th:selected="*{estado == '1'}">Activo</option>
+                                <option value="0" th:selected="*{estado == '0'}">Inactivo</option>
+                            </select>
+                        </div>
+                      </div>
+
+
+                      <div class="row" mt-3>
+                          <div class="col-12 text-center">
+                              <button type="submit" class="btn btn-primary">
+                                  <i class="fa-solid fa-floppy-disk"></i> Guardar Proveedor
+                              </button>
+                          </div>
+
+                      </div>
+                  </div>                            
+              </div>
+          </form>
+          
+          <br><br>
+          <div class="card">
+              <div class="card-header">
+                  Proveedores registrados
+              </div>
+              <div class="card-body">
+                  <table class="table table-bordered table-hover">
+                      <thead>
+                          <tr>
+                              <th>Proveedor</th>
+                              <th>RUC</th>
+                              <th>Dirección</th>
+                              <th>Celular</th>
+                              <th>Fecha de Creación</th>
+                              <th>Fecha de Actualización</th>
+                              <th>Estado</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr th:each="item: ${listaProveedores}">
+                              <td th:text="${item.nombre}"></td>
+                              <td th:text="${item.ruc}"></td>
+                              <td th:text="${item.direccion}"></td>
+                              <td th:text="${item.celular}"></td>
+                              <td th:text="${item.registro}"></td>
+                              <td th:text="${item.editado}"></td>
+                              <td th:text="${item.estado == 1 ? 'Activo' : 'Inactivo'}"></td>
+                              <td class="text-center">
+                                <a class="btn btn-warning editarProveedores"
+                                          th:data-id="${item.id}"
+                                          th:data-nombre="${item.nombre}"
+                                          th:data-ruc="${item.ruc}"
+                                          th:data-direccion="${item.direccion}"
+                                          th:data-celular="${item.celular}"
+                                          th:data-registro="${item.registro}"
+                                          th:data-editado="${item.editado}"
+                                          th:data-estado="${item.estado}">
+                                          <i class="fa-solid fa-pen-to-square"></i> Editar
+                                </a>
+                              </td>
+                              
+                              <td class="text-center">
+                                  <a class="btn btn-danger" th:href="@{/proveedores/eliminar/} + ${item.id}"
+                                      onclick="return confirm('¿Desea eliminar el proveedor?')">
+                                      <i class="fa-solid fa-trash-can"></i> Eliminar
+                                  </a>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+  </main>
+      </div>
+    </div>
+     <!-- Modal -->
+     <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Proveedor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/proveedores/form}" th:object="${proveedores}" method="post">
+                <div class="modal-body p-4">
+                    <input type="hidden" th:field="*{id}">
+  
+                    <div class="row mb-3">
+                        <div class="col-12 mn-3">
+                            <label>RUC:</label>
+                            <input type="text" name="ruc" id="txtRuc" class="form-control" placeholder="Ingrese el número de RUC" required/>
+                        </div>
+                    </div>
+  
+                    <div class="row mb-3">
+                      <div class="col-12 mn-3">
+                          <label>Nombre de Proveedor:</label>
+                          <input type="text" name="nombre" id="txtNombre" class="form-control" placeholder="Ingrese el nombre de proveedor" required/>
+                      </div>
+                  </div>
+  
+                  <div class="row mb-3">
+                      <div class="col-12 mn-3">
+                          <label>Dirección:</label>
+                          <input type="text" name="direccion" id="txtDireccion" class="form-control" placeholder="Ingrese la dirección" required/>
+                      </div>
+                  </div>
+  
+                  <div class="row mb-3">
+                      <div class="col-12 mn-3">
+                          <label>Celular:</label>
+                          <input type="text" name="celular" id="txtCelular" class="form-control" placeholder="Ingrese numero de celular" required/>
+                      </div>
+                  </div>
+  
+                  <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="cboEstado">Estado:</label>
+                        <select th:field="*{estado}" id="cboEstado" class="form-select" required>
+                            <option value="">Seleccione una opción</option>
+                            <option value="1" th:selected="*{estado == 1}">Activo</option>
+                            <option value="0" th:selected="*{estado == 0}">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-ban"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+  
+    
+  <div th:replace="layout/admi :: librerias" ></div>
+  <script type="text/javascript" th:src="@{/js/proveedor.js}"></script>
+  <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

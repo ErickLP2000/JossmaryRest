@@ -1,0 +1,33 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "PasswordEncoderTest",
+            "request": "launch",
+            "mainClass": "com.proyecto2.demo.util.PasswordEncoderTest",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoApplication<demo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyecto2.demo.DemoApplication",
+            "projectName": "demo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=61439 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=demo"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoApplication<com.proyecto2-demo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyecto2.demo.DemoApplication",
+            "projectName": "com.proyecto2-demo",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=61510 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=com.proyecto2-demo"
+        }
+    ]
+}

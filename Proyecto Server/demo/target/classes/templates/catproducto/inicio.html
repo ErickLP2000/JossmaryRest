@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="layout/admi :: cabeza">   </head>
+  <body>
+ <div id="app"  >
+        <div id="sidebar" class='active' >
+            <div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+     
+
+        <a class="navbar-brand brand-logo" th:href="@{/pagina}"><img th:src="@{/images/imgindex/pagina/icono.PNG}" alt="logo"/> Textilería Jossmary</a>
+    </div>
+     <div th:replace="layout/admi :: opciones">
+       
+    </div>
+</div>
+        </div>
+
+
+     <div id="main" >
+     <nav th:replace="layout/admi :: menu"></nav>
+
+        <main>
+                  <div class="container pt-4">
+                    
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" th:if="${mensaje !=null}">
+                      <span th:text="${mensaje}"></span>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    
+                    <h1 class="text-center">Categorias Productos</h1>
+                    <br>
+
+                     <!--Aqui inicia Formulario de producto-->
+                     <form th:action="@{/catproducto/form}" th:object="${catproducto}" method="post">
+                        <div class="card">
+                            <div class="card-header">Datos de la Categoria:</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label>Nombre de la Categoría:</label>
+                                        <input type="text" th:field="*{nombre}" class="form-control" th:errorclass="'form-control alert-danger'" 
+                                            placeholder="Ingrese el nombre de la categoria" required/>
+                                            <small class="form-text text-danger" th:if="${#fields.hasErrors('nombre')}">Campo obligatorio</small>
+                                    </div>
+                                </div>
+
+                                <div class="row" mt-3>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fa-solid fa-floppy-disk"></i> Guardar Categoria
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>                            
+                        </div>
+                    </form>
+                    
+                    <br><br>
+                    <div class="card">
+                        <div class="card-header">
+                            Categorías registradas
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre de Categoráa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item: ${listaCatproducto}">
+                                        <td th:text="${item.nombre}"></td>
+                                        <td class="text-center">
+                                          <a class="btn btn-warning editarCatproducto"
+                                                    th:data-id="${item.id}"
+                                                    th:data-nombre="${item.nombre}">
+                                                    <i class="fa-solid fa-pen-to-square"></i> Editar
+                                          </a>
+                                        </td>
+                                        
+                                        <td class="text-center">
+                                            <a class="btn btn-danger" th:href="@{/catinsumo/eliminar/} + ${item.id}"
+                                                onclick="return confirm('¿Desea eliminar la categoría?')">
+                                                <i class="fa-solid fa-trash-can"></i> Eliminar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </main>
+      </div>
+    </div>
+     <!-- Modal -->
+     <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Categoría</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/catproducto/form}" th:object="${catproducto}" method="post">
+                <div class="modal-body p-4">
+                    <input type="hidden" th:field="*{id}">
+  
+                    <div class="row mb-3">
+                      <div class="col-12 mn-3">
+                          <label>Nombre de la Categoría:</label>
+                          <input type="text" name="nombre" id="txtNombre" class="form-control" placeholder="Ingrese el nombre de la categoría" required/>
+                      </div>
+                  </div>
+  
+                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-ban"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+  
+    
+  <div th:replace="layout/admi :: librerias" ></div>
+  <script type="text/javascript" th:src="@{/js/catproducto.js}"></script>
+  <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+</body>
+</html>

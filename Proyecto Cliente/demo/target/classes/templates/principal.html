@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout/admi :: cabeza">  
+</head>
+<body>
+
+ <div id="app"  >
+        <div id="sidebar" class='active' >
+            <div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+        <a class="navbar-brand brand-logo" th:href="@{/pagina}"><img th:src="@{/images/imgindex/pagina/icono.PNG}" alt="logo"/> Quinta Farma</a>
+    </div>
+     <div th:replace="layout/admi :: opciones">
+       
+    </div>
+</div>
+        </div>
+
+
+     <div id="main" >
+     <nav th:replace="layout/admi :: menu">
+     </nav>
+     
+<!-- Aqu� van los imputs y tablas -->
+<main>
+ 
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                       
+                    
+                       
+                    </div>
+                </main>
+
+     <!-- Aqu� terminan -->
+    </div>
+    
+    
+    </div>
+    
+  <div th:replace="layout/admi :: librerias" ></div>
+</body>
+</html>

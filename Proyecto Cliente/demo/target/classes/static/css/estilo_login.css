@@ -1,0 +1,68 @@
+body{
+	background-color: #fdfdfdf3;
+}
+
+.cuadro{
+	background-color: #FFFFFF;
+	max-width: 450px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15%;
+	text-align: center;
+	border-radius: 15px;
+	box-shadow: 0px 0px 20px #000000;
+}
+
+h3{
+	padding-top: 25px;
+	margin-bottom: 30px;
+	font-size: 18px;
+}
+
+.linea{
+	border-bottom: 3px solid #53faaff3;
+	padding-bottom: 5px;
+}
+
+.margen{
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+.colorBoton{
+	background-color: #79ebacf3;
+	border-color: #79ebacf3;
+}
+
+.colorBoton:hover{
+	background-color: #D5053B;
+	border-color: #D5053B;
+}
+
+.responsive-img {
+    max-width: 100%; /* Asegura que no exceda el contenedor */
+    height: auto;    /* Mantiene la proporción */
+    width: 250px;    /* Tamaño base; ajusta según lo necesario */
+    display: block;  /* Evita problemas con el espacio en línea */
+    margin: 0 auto;  /* Centra la imagen si es necesario */
+}
+
+.logo-img {
+    max-width: 100%; /* Hace que el logo no exceda su contenedor */
+    height: auto; /* Mantiene la proporción del logo */
+    width: 30px; /* Tamaño base del logo, ajusta según lo necesario */
+}
+
+/* Tamaño más grande en pantallas medianas */
+@media (min-width: 768px) {
+    .logo-img {
+        width: 20px; /* Aumenta el tamaño del logo para pantallas medianas */
+    }
+}
+
+/* Tamaño aún más grande en pantallas grandes */
+@media (min-width: 1200px) {
+    .logo-img {
+        width: 30px; /* Tamaño más grande para pantallas grandes */
+    }
+}
